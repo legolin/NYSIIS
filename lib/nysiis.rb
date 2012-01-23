@@ -5,8 +5,8 @@ module Nysiis
   # https://en.wikipedia.org/wiki/New_York_State_Identification_and_Intelligence_System
   #
 
-  def nysiis
-    str = self.upcase
+  def nysiis(word)
+    str = word.upcase
     str.strip!
     str.gsub!(/[^A-Z ]/,"")
     str.gsub!(/ +(JR|SR)$/,"")
@@ -72,5 +72,8 @@ module Nysiis
 end
 
 class String
-  include Nysiis
+  # Split a sentence into words, run each through nysiis and turn back into sentence
+  def nysiis
+    self.split(' ').collect{|word| Nysiis::nysiis(word)}.join(' ')
+  end
 end
